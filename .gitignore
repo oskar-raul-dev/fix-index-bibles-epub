@@ -1,0 +1,166 @@
+# ===============================================================
+# Bible texts: NEVER commit them (copyright).
+# Only the code and the docs go to git.
+# ===============================================================
+*.epub
+input/*
+!input/README.md
+!input/.gitkeep
+output/
+work/
+unpacked/
+
+# ===============================================================
+# Python
+# ===============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.venv-*/
+venv/
+env/
+.python-eggs/
+*.egg-info/
+build/
+dist/
+# tool caches
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+.ruff_cache/
+.pytype/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.ipynb_checkpoints/
+# local secrets / env files
+.env
+.envrc
+
+# ===============================================================
+# Logs and leftovers
+# ===============================================================
+*.log
+*.bak
+*.tmp
+*.temp
+*.orig
+*.rej
+
+# ===============================================================
+# macOS
+# ===============================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ===============================================================
+# Windows
+# ===============================================================
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.stackdump
+*.lnk
+
+# ===============================================================
+# Linux
+# ===============================================================
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===============================================================
+# IDEs and editors
+# ===============================================================
+# VS Code: keep shared project settings, ignore the rest
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+*.code-workspace
+.history/
+.vscode-test/
+
+# JetBrains (PyCharm, IntelliJ, ...)
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Visual Studio
+.vs/
+
+# Eclipse / PyDev
+.project
+.pydevproject
+.settings/
+.metadata/
+
+# NetBeans
+nbproject/private/
+
+# Vim
+*.swp
+*.swo
+*.swn
+*.un~
+Session.vim
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+.#*
+.emacs.desktop
+.emacs.desktop.lock
+auto-save-list/
+.projectile
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Kate / KDevelop
+*.kate-swp
+*.kdev4
+.kdev4/
+
+# Spyder / Rope
+.spyderproject
+.spyproject
+.ropeproject
+
+# Zed, Fleet, Cursor, Windsurf, Nova, Atom, TextMate
+.zed/
+.fleet/
+.cursor/
+.windsurf/
+.nova/
+.atom/
+*.tmproj
