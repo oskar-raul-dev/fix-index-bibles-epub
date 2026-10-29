@@ -1,0 +1,62 @@
+# =====================================================================
+# Arreglo Biblias EPUB - comandos
+# Explicación: README.md (qué hace cada cosa) y COMANDOS.md (bitácora)
+# =====================================================================
+
+# Todo se corre desde una terminal abierta en la carpeta del proyecto (sin cd).
+
+# ---------- 0. Originales en input/ (o BIBLE_INPUT_DIR) ----------
+cp ~/Documents/Torrents/Biblias_Arreglar/*.epub input/        # opción A: copiarlos
+# export BIBLE_INPUT_DIR=~/Documents/Torrents/Biblias_Arreglar  # opción B: leerlos donde están
+
+# ---------- 1. Limpieza (opcional) ----------
+rm -rf .venv-probe          # venv de prueba que no sirve
+rm -rf __pycache__          # cache de Python, se regenera solo
+rm -rf work                 # copias de trabajo e intermedios, se regeneran
+rm -f run_all.log           # log viejo
+
+# ---------- 2. Entorno Python 3.14.9 (una sola vez) ----------
+pyenv local 3.14.9                  # fija la versión en esta carpeta (.python-version)
+python --version                    # debe decir Python 3.14.9
+python -m venv .venv                # crea el entorno virtual
+source .venv/bin/activate           # lo activa (el prompt muestra (.venv))
+pip install -r requirements.txt     # instala lxml
+python -c "import lxml; print(lxml.__version__)"   # comprobar
+
+# ---------- 3. Procesar las 8 Biblias ----------
+source .venv/bin/activate            # si abriste otra terminal
+python run_all.py | tee run_all.log  # reporte en pantalla y en run_all.log
+ls output                            # 01-La Biblia de las Américas - Anónimo.epub ... 08-...
+# intermedios en work/stages/
+
+# ---------- 4. Paso a paso con una sola Biblia ----------
+# (o cambia la constante BIBLE_PATH arriba de cada script y corre sin argumento)
+python validate_epub.py "input/[Biblias 02] Biblia Reina-Valera 1960 [10645] (r1.3).epub"
+python fix_links.py "input/[Biblias 02] Biblia Reina-Valera 1960 [10645] (r1.3).epub"
+python build_navigation.py "output/[Biblias 02] Biblia Reina-Valera 1960 [10645] (r1.3) [fixed].epub"
+python set_metadata.py "output/[Biblias 02] Biblia Reina-Valera 1960 [10645] (r1.3) [fixed] [nav].epub"
+python validate_epub.py "output/02-Biblia Reina-Valera 1960 - Anónimo.epub"
+rm -f output/*"[fixed].epub" output/*"[fixed] [nav].epub"   # quitar intermedios del paso a paso
+
+# ---------- 5. Cambiar nombres, orden, autor o colección ----------
+# editar bibles_config.py y volver a correr:  python run_all.py
+
+# ---------- 6. Diagnósticos del análisis inicial (leen unpacked/) ----------
+python probe_links.py
+python probe_notes.py
+python probe_ncx.py
+python probe_struct.py
+
+# ---------- 7. Explorar un EPUB a mano (un EPUB es un ZIP) ----------
+# mkdir -p /tmp/biblia && unzip -oq "output/02-Biblia Reina-Valera 1960 - Anónimo.epub" -d /tmp/biblia
+# grep -o '<itemref idref="[^"]*"' /tmp/biblia/OEBPS/content.opf | head     # orden de lectura
+# grep -o '<text>[^<]*</text>' /tmp/biblia/OEBPS/toc.ncx | head -30         # índice
+# grep -E 'dc:title|dc:creator|calibre:series' /tmp/biblia/OEBPS/content.opf  # metadata
+# ls -lS /tmp/biblia/OEBPS/Text | head                                        # archivos más pesados
+
+# ---------- 8. Validación oficial opcional (necesita Java) ----------
+# Descargar epubcheck: https://github.com/w3c/epubcheck/releases (epubcheck-5.2.1.zip)
+# java -jar ~/Downloads/epubcheck-5.2.1/epubcheck.jar "output/02-Biblia Reina-Valera 1960 - Anónimo.epub"
+
+# ---------- 9. Salir del entorno ----------
+deactivate
